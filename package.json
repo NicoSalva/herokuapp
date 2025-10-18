@@ -9,11 +9,13 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.8.1",
     "@wdio/cli": "^8.35.0",
+    "@wdio/cucumber-framework": "^9.20.0",
     "@wdio/local-runner": "^8.35.0",
     "@wdio/mocha-framework": "^8.35.0",
     "@wdio/spec-reporter": "^8.35.0",
     "@wdio/types": "^8.35.0",
     "chromedriver": "^131.0.0",
+    "cucumber": "^6.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.0.0"
   }

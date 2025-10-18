@@ -1,7 +1,7 @@
 export const config = {
     runner: 'local',
     specs: [
-        './src/tests/**/*.spec.ts'
+        './src/features/**/*.feature'
     ],
     autoCompileOpts: {
         autoCompile: true,
@@ -24,10 +24,20 @@ export const config = {
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
     services: [],
-    framework: 'mocha',
+    framework: 'cucumber',
     reporters: ['spec'],
-    mochaOpts: {
-        ui: 'bdd',
-        timeout: 60000
+    cucumberOpts: {
+        require: ['./src/step-definitions/**/*.ts'],
+        backtrace: false,
+        requireModule: [],
+        dryRun: false,
+        failFast: false,
+        format: ['pretty'],
+        snippets: true,
+        source: true,
+        strict: false,
+        tagExpression: '',
+        timeout: 60000,
+        ignoreUndefinedDefinitions: false
     }
 }
