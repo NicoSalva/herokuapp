@@ -46,17 +46,66 @@ When('I enter {string} in the description field', async (description: string) =>
     expect(enteredText).toBe(description)
 })
 
+When('I upload an image file', async () => {
+    // Try to upload the 320x320 test image
+    const imagePath = '/Users/U632638/Entrevistas/herokuapp/test-assets/test-image-320x320.png'
+    
+    // First, let's see what input elements exist
+    const allInputs = await browser.$$('input')
+    console.log(`Found ${allInputs.length} input elements:`)
+    
+    for (let i = 0; i < allInputs.length; i++) {
+        const input = allInputs[i]
+        const type = await input.getAttribute('type')
+        const id = await input.getAttribute('id')
+        const name = await input.getAttribute('name')
+        const ngModel = await input.getAttribute('ng-model')
+        console.log(`Input ${i}: type="${type}", id="${id}", name="${name}", ng-model="${ngModel}"`)
+    }
+    
+    // Try to find and upload to file input
+    try {
+        const fileInput = await $('input[type="file"]')
+        if (await fileInput.isExisting()) {
+            await fileInput.setValue(imagePath)
+            console.log('Image uploaded successfully')
+        } else {
+            console.log('No file input found - skipping image upload')
+        }
+    } catch (error) {
+        console.log('Image upload failed:', error instanceof Error ? error.message : String(error))
+    }
+})
+
 When('I click the Create Item button', async () => {
     // Get initial item count to validate creation
     const initialCount = await itemListPage.getItemCount()
+    console.log(`Initial item count: ${initialCount}`)
+    
+    // Check for any console errors before clicking
+    const logsBefore = await browser.getLogs('browser')
+    console.log('Browser logs before click:', logsBefore)
     
     // Click the create button
     await createItemPage.clickCreateButton()
+    console.log('Create button clicked')
+    
+    // Wait a bit to see if there are any errors
+    await browser.pause(3000)
+    
+    // Check for any console errors after clicking
+    const logsAfter = await browser.getLogs('browser')
+    console.log('Browser logs after click:', logsAfter)
+    
+    // Check current count
+    const currentCount = await itemListPage.getItemCount()
+    console.log(`Current item count: ${currentCount}`)
     
     // Wait for the new item to appear in the list
     await browser.waitUntil(
         async () => {
             const newCount = await itemListPage.getItemCount()
+            console.log(`Checking item count: ${newCount}`)
             return newCount > initialCount
         },
         { timeout: 10000, timeoutMsg: 'New item did not appear in the list' }

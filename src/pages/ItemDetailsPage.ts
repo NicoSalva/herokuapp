@@ -1,12 +1,12 @@
 import { BasePage } from './BasePage'
 
-export class CreateItemPage extends BasePage {
-    // Selectors for the create item form
+export class ItemDetailsPage extends BasePage {
+    // Selectors for the Item Details section
     protected selectors = {
         textarea: 'textarea[name="text"]',
         imageInput: 'input[type="file"][id="InputImage"]',
         createButton: 'button[ng-click*="createItem"]',
-        formSection: 'form[name="strangerlist.detailsForm"]'
+        itemDetailsSection: 'form[name="strangerlist.detailsForm"]'
     }
 
     /**
@@ -51,9 +51,17 @@ export class CreateItemPage extends BasePage {
     }
 
     /**
-     * Check if the form is visible
+     * Check if the Item Details section is visible
      */
-    async isFormVisible(): Promise<boolean> {
-        return await this.isElementDisplayed(this.selectors.formSection)
+    async isItemDetailsVisible(): Promise<boolean> {
+        return await this.isElementDisplayed(this.selectors.itemDetailsSection)
+    }
+
+    /**
+     * Get the current value of the image input
+     */
+    async getImageInputValue(): Promise<string> {
+        await this.waitForElement(this.selectors.imageInput)
+        return await $(this.selectors.imageInput).getValue()
     }
 }
