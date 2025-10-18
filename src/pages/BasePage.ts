@@ -2,7 +2,7 @@ import { QAUtils } from '../utils/QAUtils'
 
 export class BasePage {
     // Common selectors that might be used across pages
-    protected selectors = {
+    protected selectors: any = {
         loadingSpinner: '[data-testid="loading"]',
         errorMessage: '[data-testid="error"]',
         successMessage: '[data-testid="success"]'
@@ -68,6 +68,20 @@ export class BasePage {
      * Type text in input field
      */
     async typeInField(selector: string, text: string): Promise<void> {
+        await QAUtils.clearAndType(selector, text)
+    }
+
+    /**
+     * Wait for element to be visible and clickable
+     */
+    async waitForElement(selector: string, timeout: number = 10000): Promise<void> {
+        await QAUtils.waitForElement(selector, timeout)
+    }
+
+    /**
+     * Clear and type text in input field
+     */
+    async clearAndType(selector: string, text: string): Promise<void> {
         await QAUtils.clearAndType(selector, text)
     }
 }
