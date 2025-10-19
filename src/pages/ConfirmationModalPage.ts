@@ -1,21 +1,15 @@
 import { BasePage } from './BasePage'
+import { ConfirmationModalLocators } from '../locators/ConfirmationModalLocators'
 
 export class ConfirmationModalPage extends BasePage {
-    // Selectors for the confirmation modal
-    protected selectors = {
-        modal: '.modal',
-        modalTitle: '.modal-title',
-        modalBody: '.modal-body',
-        confirmButton: '.modal-footer .btn-primary',
-        cancelButton: '.modal-footer .btn-warning',
-        modalContent: '.modal-content'
-    }
+    // Use page-specific locators
+    protected locators = new ConfirmationModalLocators()
 
     /**
      * Wait for modal to be visible
      */
     async waitForModal(): Promise<void> {
-        await this.waitForElement(this.selectors.modal)
+        await this.waitForElement(this.locators.modal)
     }
 
     /**
@@ -23,7 +17,7 @@ export class ConfirmationModalPage extends BasePage {
      */
     async getModalTitle(): Promise<string> {
         await this.waitForModal()
-        return await this.getElementText(this.selectors.modalTitle)
+        return await this.getElementText(this.locators.modalTitle)
     }
 
     /**
@@ -31,7 +25,7 @@ export class ConfirmationModalPage extends BasePage {
      */
     async getModalBodyText(): Promise<string> {
         await this.waitForModal()
-        return await this.getElementText(this.selectors.modalBody)
+        return await this.getElementText(this.locators.modalBody)
     }
 
     /**
@@ -39,7 +33,7 @@ export class ConfirmationModalPage extends BasePage {
      */
     async clickConfirmButton(): Promise<void> {
         await this.waitForModal()
-        await this.clickElement(this.selectors.confirmButton)
+        await this.clickElement(this.locators.confirmButton)
     }
 
     /**
@@ -47,14 +41,14 @@ export class ConfirmationModalPage extends BasePage {
      */
     async clickCancelButton(): Promise<void> {
         await this.waitForModal()
-        await this.clickElement(this.selectors.cancelButton)
+        await this.clickElement(this.locators.cancelButton)
     }
 
     /**
      * Check if modal is visible
      */
     async isModalVisible(): Promise<boolean> {
-        return await this.isElementDisplayed(this.selectors.modal)
+        return await this.isElementDisplayed(this.locators.modal)
     }
 
     /**

@@ -1,9 +1,9 @@
 import { BasePage } from './BasePage'
-import { CreateItemLocators } from '../locators/CreateItemLocators'
+import { EditItemLocators } from '../locators/EditItemLocators'
 
-export class CreateItemPage extends BasePage {
+export class EditItemPage extends BasePage {
     // Use page-specific locators
-    protected locators = new CreateItemLocators()
+    protected locators = new EditItemLocators()
 
     /**
      * Enter text in the description textarea
@@ -23,11 +23,19 @@ export class CreateItemPage extends BasePage {
     }
 
     /**
-     * Click the Create Item button
+     * Click the Update Item button
      */
-    async clickCreateButton(): Promise<void> {
-        await this.waitForElement(this.locators.createButton)
-        await this.clickElement(this.locators.createButton)
+    async clickUpdateButton(): Promise<void> {
+        await this.waitForElement(this.locators.updateButton)
+        await this.clickElement(this.locators.updateButton)
+    }
+
+    /**
+     * Click the Cancel button
+     */
+    async clickCancelButton(): Promise<void> {
+        await this.waitForElement(this.locators.cancelButton)
+        await this.clickElement(this.locators.cancelButton)
     }
 
     /**
@@ -51,5 +59,13 @@ export class CreateItemPage extends BasePage {
      */
     async isFormVisible(): Promise<boolean> {
         return await this.isElementDisplayed(this.locators.formSection)
+    }
+
+    /**
+     * Clear the textarea
+     */
+    async clearDescription(): Promise<void> {
+        await this.waitForElement(this.locators.textarea)
+        await $(this.locators.textarea).clearValue()
     }
 }

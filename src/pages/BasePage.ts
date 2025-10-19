@@ -1,12 +1,8 @@
 import { QAUtils } from '../utils/QAUtils'
+import { TestConfigManager } from '../config/TestConfig'
 
 export class BasePage {
-    // Common selectors that might be used across pages
-    protected selectors: any = {
-        loadingSpinner: '[data-testid="loading"]',
-        errorMessage: '[data-testid="error"]',
-        successMessage: '[data-testid="success"]'
-    }
+    protected configManager = TestConfigManager.getInstance()
 
     /**
      * Navigate to the application
@@ -74,8 +70,10 @@ export class BasePage {
     /**
      * Wait for element to be visible and clickable
      */
-    async waitForElement(selector: string, timeout: number = 10000): Promise<void> {
-        await QAUtils.waitForElement(selector, timeout)
+    async waitForElement(selector: string, timeout?: number): Promise<void> {
+        const config = this.configManager.getConfig()
+        const waitTimeout = timeout || config.timeout.element
+        await QAUtils.waitForElement(selector, waitTimeout)
     }
 
     /**
@@ -83,6 +81,58 @@ export class BasePage {
      */
     async clearAndType(selector: string, text: string): Promise<void> {
         await QAUtils.clearAndType(selector, text)
+    }
+
+    /**
+     * Check if running on mobile
+     */
+    isMobile(): boolean {
+        return this.configManager.isMobile()
+    }
+
+    /**
+     * Check if running on desktop
+     */
+    isDesktop(): boolean {
+        return this.configManager.isDesktop()
+    }
+
+    /**
+     * Get device-specific selector (deprecated - use locators instead)
+     * @deprecated Use page-specific locators instead
+     */
+    getDeviceSelector(desktopSelector: string, mobileSelector?: string): string {
+        if (this.isMobile() && mobileSelector) {
+            return mobileSelector
+        }
+        return desktopSelector
+    }
+
+    /**
+     * Scroll to element (useful for mobile)
+     */
+    async scrollToElement(selector: string): Promise<void> {
+        const element = await $(selector)
+        await element.scrollIntoView()
+    }
+
+    /**
+     * Wait for Angular to be ready
+     */
+    async waitForAngular(): Promise<void> {
+        await browser.waitUntil(
+            async () => {
+                const angularReady = await browser.execute(() => {
+                    return typeof (window as any).angular !== 'undefined' && 
+                           document.querySelector('[ng-controller]') !== null;
+                });
+                return angularReady;
+            },
+            { 
+                timeout: this.configManager.getConfig().timeout.page, 
+                timeoutMsg: 'Angular did not load properly' 
+            }
+        )
     }
 }
 

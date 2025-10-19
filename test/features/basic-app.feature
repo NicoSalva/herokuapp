@@ -3,6 +3,7 @@ Feature: Basic Application Loading
   I want to access the Stranger List application
   So that I can interact with the items
 
+  @smoke @basic
   Scenario: Application loads successfully
     Given I navigate to the application
     When the page loads completely

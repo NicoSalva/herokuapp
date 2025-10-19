@@ -1,43 +1,75 @@
 # Bug Reports - Stranger List App
 
-## BUG #1: Create Item button is not working
+## BUG #1: Image validation is not working
 
 ### What I found
-The "Create Item" button doesn't create new items in the list. I tried to add a new item but nothing happens when I click the button.
+The app says images must be 320x320px but it accepts any size image. I tried uploading different sizes and they all work.
 
 ### How to test this bug
 1. Go to the Stranger List application
-2. Write some text in the description field
-3. Click the "Create Item" button
-4. Check if a new item appears in the list (it doesn't)
+2. Try to upload an image that is NOT 320x320px (like 100x100 or 500x500)
+3. The image gets uploaded successfully (it should be rejected)
 
 ### What should happen
-- A new item should be added to the list
-- The list should have one more item
-- I should see my new item in the list
+- Only 320x320px images should be accepted
+- Other sizes should be rejected with an error message
 
 ### What actually happens
-- Nothing happens when I click the button
-- No new item is created
-- The list stays the same
+- Any size image gets uploaded
+- No validation is performed
+- The app accepts images that don't meet the requirements
 
 ### Technical info
-- Button: `button[ng-click*="createItem"]`
-- Button text: "Create Item"
-- Form: `strangerlist.detailsForm`
-- Text field: `textarea[name="text"]`
-- Image needs to be 320x320px
+- Image input: `input[type="file"][id="inputImage"]`
+- Required size: 320x320px
+- Current behavior: Accepts any size
 
 ### Test files
 - `src/features/create-item.feature`
 - `src/step-definitions/create-item.steps.ts`
 
 ### How serious is this?
-**Very serious** - Users can't add new items to the list. This is the main function of the app.
+**Medium** - Users can upload wrong size images, but the app still works.
 
 ### Status
 **Open** - I found this bug with my automated tests
 
 ---
 
-*Found this bug using WebdriverIO and Cucumber tests*
+## BUG #2: Description length validation is not working
+
+### What I found
+The app says descriptions should be maximum 300 characters but it allows longer descriptions. I tried entering 350 characters and it worked.
+
+### How to test this bug
+1. Go to the Stranger List application
+2. Try to enter a description with more than 300 characters
+3. The description gets accepted (it should be rejected or truncated)
+
+### What should happen
+- Only descriptions up to 300 characters should be accepted
+- Longer descriptions should be rejected or truncated
+
+### What actually happens
+- Any length description gets accepted
+- No validation is performed on description length
+- The app accepts descriptions that exceed the limit
+
+### Technical info
+- Text field: `textarea[name="text"]`
+- Placeholder: "Maximum allowed length: 300 characters"
+- Current behavior: Accepts any length
+
+### Test files
+- `src/features/create-item.feature`
+- `src/step-definitions/create-item.steps.ts`
+
+### How serious is this?
+**Medium** - Users can create very long descriptions, which might cause UI issues.
+
+### Status
+**Open** - I found this bug with my automated tests
+
+---
+
+*Found these bugs using WebdriverIO and Cucumber tests*

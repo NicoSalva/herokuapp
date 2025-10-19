@@ -9,9 +9,17 @@ allure-report/
 allure-results/
 reports/
 screenshots/
+test-results/
 *.png
 *.jpg
 *.jpeg
+
+# Test artifacts (keep test assets but ignore generated files)
+test-assets/*.png
+!test-assets/test-image-*.png
+
+# WebdriverIO
+.wdio/
 
 # Build outputs
 dist/

@@ -1,21 +1,16 @@
 import { BasePage } from './BasePage'
+import { ItemListLocators } from '../locators/ItemListLocators'
 
 export class ItemListPage extends BasePage {
-    // Selectors for the item list
-    protected selectors = {
-        itemList: '[ng-repeat="item in items"]',
-        itemText: '[ng-repeat="item in items"]',
-        editButton: 'button[ng-click*="setCurrentItem"]',
-        deleteButton: 'button[ng-click*="open"]',
-        listContainer: '.container-fluid'
-    }
+    // Use page-specific locators
+    protected locators = new ItemListLocators()
 
     /**
      * Get all items in the list
      */
     async getAllItems(): Promise<WebdriverIO.ElementArray> {
-        await this.waitForElement(this.selectors.itemList)
-        return await $$(this.selectors.itemList)
+        await this.waitForElement(this.locators.itemList)
+        return await $$(this.locators.itemList)
     }
 
     /**
@@ -26,8 +21,12 @@ export class ItemListPage extends BasePage {
         const texts: string[] = []
         
         for (let i = 0; i < items.length; i++) {
-            const text = await items[i].getText()
-            texts.push(text)
+            // Get the text from the p.story.ng-binding element inside each li
+            const storyElement = await items[i].$(this.locators.itemText)
+            if (await storyElement.isExisting()) {
+                const text = await storyElement.getText()
+                texts.push(text)
+            }
         }
         
         return texts
@@ -40,9 +39,13 @@ export class ItemListPage extends BasePage {
         const items = await this.getAllItems()
         
         for (let i = 0; i < items.length; i++) {
-            const text = await items[i].getText()
-            if (text.includes(itemText)) {
-                return items[i]
+            // Get the text from the p.story.ng-binding element inside each li
+            const storyElement = await items[i].$(this.locators.itemText)
+            if (await storyElement.isExisting()) {
+                const text = await storyElement.getText()
+                if (text.includes(itemText)) {
+                    return items[i]
+                }
             }
         }
         
