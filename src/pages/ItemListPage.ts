@@ -74,7 +74,7 @@ export class ItemListPage extends BasePage {
     async clickEditForItem(itemText: string): Promise<void> {
         const item = await this.findItemByText(itemText)
         if (item) {
-            const editButton = await item.$('button:contains("Edit")')
+            const editButton = await item.$(this.locators.editButton)
             await editButton.click()
         } else {
             throw new Error(`Item with text "${itemText}" not found`)
