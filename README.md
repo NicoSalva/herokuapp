@@ -35,24 +35,18 @@ docker-compose up test-desktop
 docker-compose up test-mobile
 ```
 
-## Tests Done
+## Tests
 
-✅ **Basic app loading** - App loads correctly  
-✅ **Create item** - Can create new items  
-✅ **Bug detection** - Found validation bugs  
+✅ App carga bien  
+✅ Crear item  
+✅ Editar item  
+✅ Borrar item creado (flujo completo)  
+✅ Existe item: "Creators: Matt Duffer, Ross Duffer"  
+✅ Validaciones: largo máx y tamaño/ratio de imagen  
 
-## Still Need To Do
+## Bugs
 
-- Edit existing item
-- Delete created item
-- Check for "Creators: Matt Duffer, Ross Duffer" item
-
-## Bugs Found
-
-**BUG #1**: Image size validation not working - accepts any size instead of 320x320px  
-**BUG #2**: Description length validation not working - allows more than 300 characters
-
-Check `BUG_REPORTS.md` for details.
+Ver `BUG_REPORTS.md` (simple y directo).
 
 ## Reports
 

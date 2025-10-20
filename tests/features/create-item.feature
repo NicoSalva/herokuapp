@@ -36,6 +36,16 @@ Feature: Create Item - Functional and Validation Tests
     Then the Create button should be disabled
     And the item count should NOT increase
     And I should see an error message about description length
+ 
+  @validation @bug-detection
+  Scenario: Create Item should reject images with wrong aspect ratio
+    Given I am on the Stranger List application
+    And I get the initial item count from the list header
+    When I enter "Testing wrong aspect ratio" in the description field
+    And I upload an image with wrong aspect ratio
+    And I click the Create Item button
+    Then the item count should NOT increase
+    And I should see an error message about image size
     
     # NOTE: This test will PASS if validation works correctly (rejects long description)
     # This test will FAIL if there's a bug (accepts long description)
