@@ -1,4 +1,4 @@
-import { When } from '@wdio/cucumber-framework'
+import { When, Then } from '@wdio/cucumber-framework'
 import { expect } from '@wdio/globals'
 import { CreateItemPage } from '../../src/pages/CreateItemPage'
 import { TestAssets } from '../../src/config/TestAssets'
@@ -138,4 +138,15 @@ When('I click the Create Item button', async () => {
         currentCount: result.currentCount,
         increase: result.currentCount - initialCount
     })
+})
+
+// ============================================================================
+// VALIDATION STEPS (DISABLED BUTTON)
+// ============================================================================
+
+Then('the Create button should be disabled', async () => {
+    const button = await $(createItemPage['locators'].createButton as string)
+    const isEnabled = await button.isEnabled()
+    expect(isEnabled).toBe(false)
+    allureLogger('Create button is disabled as expected')
 })

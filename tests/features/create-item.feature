@@ -33,8 +33,8 @@ Feature: Create Item - Functional and Validation Tests
     And I get the initial item count from the list header
     When I enter a description with 350 characters
     And I upload an image file
-    And I click the Create Item button
-    Then the item count should NOT increase
+    Then the Create button should be disabled
+    And the item count should NOT increase
     And I should see an error message about description length
     
     # NOTE: This test will PASS if validation works correctly (rejects long description)
