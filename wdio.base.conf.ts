@@ -5,7 +5,7 @@ const testConfig = configManager.getConfig()
 
 export const baseConfig = {
     runner: 'local',
-    specs: ['./test/features/**/*.feature'],
+    specs: ['./tests/features/**/*.feature'],
     maxInstances: 1,
     logLevel: 'info',
     baseUrl: testConfig.baseUrl,
@@ -26,7 +26,7 @@ export const baseConfig = {
         }]
     ],
     cucumberOpts: {
-        require: ['./test/step-definitions/**/*.ts'],
+        require: ['./tests/step-definitions/**/*.ts'],
         backtrace: false,
         dryRun: false,
         failFast: false,

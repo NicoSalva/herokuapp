@@ -33,7 +33,30 @@ export class ConfirmationModalPage extends BasePage {
      */
     async clickConfirmButton(): Promise<void> {
         await this.waitForModal()
-        await this.clickElement(this.locators.confirmButton)
+        // Try main selector
+        const main = await $(this.locators.confirmButton)
+        if (await main.isExisting() && await main.isDisplayed()) {
+            await main.click()
+            return
+        }
+        // Try danger/primary fallbacks
+        const danger = await $(this.locators.confirmDangerBtn)
+        if (await danger.isExisting() && await danger.isDisplayed()) {
+            await danger.click()
+            return
+        }
+        const primary = await $(this.locators.confirmPrimaryBtn)
+        if (await primary.isExisting() && await primary.isDisplayed()) {
+            await primary.click()
+            return
+        }
+        // Try xpath by text
+        const byText = await $("//div[contains(@class,'modal')]//button[normalize-space()='Yes, delete it!']")
+        if (await byText.isExisting() && await byText.isDisplayed()) {
+            await byText.click()
+            return
+        }
+        throw new Error('Confirm button not found in modal')
     }
 
     /**

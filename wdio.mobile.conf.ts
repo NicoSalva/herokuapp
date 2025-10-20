@@ -6,6 +6,10 @@ const testConfig = configManager.getConfig()
 
 export const config = {
     ...baseConfig,
+    cucumberOpts: {
+        ...baseConfig.cucumberOpts,
+        timeout: 120000
+    },
     capabilities: [{
         browserName: 'chrome',
         'goog:chromeOptions': {

@@ -87,7 +87,7 @@ export class ItemListPage extends BasePage {
     async clickDeleteForItem(itemText: string): Promise<void> {
         const item = await this.findItemByText(itemText)
         if (item) {
-            const deleteButton = await item.$('button:contains("Delete")')
+            const deleteButton = await item.$(this.locators.deleteButton)
             await deleteButton.click()
         } else {
             throw new Error(`Item with text "${itemText}" not found`)

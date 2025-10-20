@@ -14,7 +14,11 @@ export class ConfirmationModalLocators extends BaseLocators {
         modalContent: '.modal-content',
         
         // Action buttons
-        confirmButton: 'button[ng-click*="confirm"]',
+        // Primary confirm: matches provided details
+        confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
+        // Fallbacks (used via page logic)
+        confirmDangerBtn: '.modal .btn-danger',
+        confirmPrimaryBtn: '.modal .btn-primary',
         cancelButton: 'button[ng-click*="cancel"]',
         closeButton: '.close',
         
@@ -32,8 +36,8 @@ export class ConfirmationModalLocators extends BaseLocators {
         modalTitle: '.modal-title',
         modalContent: '.modal-content',
         
-        // Action buttons
-        confirmButton: 'button[ng-click*="confirm"]',
+        // Action buttons (match desktop primary confirm)
+        confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
         cancelButton: 'button[ng-click*="cancel"]',
         closeButton: '.close',
         
@@ -128,5 +132,16 @@ export class ConfirmationModalLocators extends BaseLocators {
      */
     get successMessage(): string {
         return this.getSelector('successMessage');
+    }
+
+    /**
+     * Fallback confirm buttons (common Bootstrap styles)
+     */
+    get confirmDangerBtn(): string {
+        return '.modal .btn-danger'
+    }
+
+    get confirmPrimaryBtn(): string {
+        return '.modal .btn-primary'
     }
 }
