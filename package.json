@@ -4,6 +4,7 @@
   "description": "Test suite for herokuapp application",
   "scripts": {
     "test": "wdio run wdio.desktop.conf.ts",
+    "test:desktop": "wdio run wdio.desktop.conf.ts",
     "test:mobile": "MOBILE=true wdio run wdio.mobile.conf.ts",
     "test:smoke": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@smoke'",
     "test:functional": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@functional'",
@@ -12,7 +13,8 @@
     "test:edit": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@edit'",
     "test:delete": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@delete'",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
-    "allure:open": "allure open allure-report"
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results"
   },
   "devDependencies": {
     "@types/node": "^24.8.1",

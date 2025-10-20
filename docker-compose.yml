@@ -84,7 +84,7 @@ services:
       - ./allure-results:/app/allure-results
       - ./allure-report:/app/allure-report
       - ./screenshots:/app/screenshots
-    command: npm run test:bug
+    command: npm run test:bugs
     networks:
       - test-network
 
