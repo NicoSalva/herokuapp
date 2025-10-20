@@ -8,6 +8,9 @@
     "test:smoke": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@smoke'",
     "test:functional": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@functional'",
     "test:bugs": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@bug-detection'",
+    "test:exists": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@exists'",
+    "test:edit": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@edit'",
+    "test:delete": "wdio run wdio.desktop.conf.ts --cucumberOpts.tagExpression='@delete'",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report"
   },
