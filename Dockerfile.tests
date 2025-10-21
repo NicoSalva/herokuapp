@@ -1,0 +1,12 @@
+# Dockerfile.tests
+FROM node:20-bullseye-slim
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+# copia el resto del proyecto (features, step defs, wdio, src, etc.)
+COPY . .
+
+# Por defecto ejecuta los tests desktop
+CMD ["npm", "run", "test:desktop"]

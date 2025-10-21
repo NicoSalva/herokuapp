@@ -1,110 +1,14 @@
 version: '3.8'
 
 services:
-  # Desktop Tests
   test-desktop:
+    platform: linux/amd64
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: herokuapp-desktop-tests
-    environment:
-      - HEADLESS=true
-      - MOBILE=false
+      platforms:
+        - linux/amd64
+    shm_size: '2gb'
     volumes:
       - ./allure-results:/app/allure-results
       - ./allure-report:/app/allure-report
-      - ./screenshots:/app/screenshots
-    command: npm run test:desktop
-    networks:
-      - test-network
-
-  # Mobile Tests
-  test-mobile:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: herokuapp-mobile-tests
-    environment:
-      - HEADLESS=true
-      - MOBILE=true
-      - DEVICE_NAME=iPhone 12
-      - PLATFORM_NAME=iOS
-      - PLATFORM_VERSION=15.0
-    volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-report:/app/allure-report
-      - ./screenshots:/app/screenshots
-    command: npm run test:mobile
-    networks:
-      - test-network
-
-  # All Tests (Desktop + Mobile)
-  test-all:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: herokuapp-all-tests
-    environment:
-      - HEADLESS=true
-    volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-report:/app/allure-report
-      - ./screenshots:/app/screenshots
-    command: sh -c "npm run test:desktop && npm run test:mobile"
-    networks:
-      - test-network
-
-  # Smoke Tests Only
-  test-smoke:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: herokuapp-smoke-tests
-    environment:
-      - HEADLESS=true
-      - MOBILE=false
-    volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-report:/app/allure-report
-      - ./screenshots:/app/screenshots
-    command: npm run test:smoke
-    networks:
-      - test-network
-
-  # Bug Detection Tests
-  test-bugs:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: herokuapp-bug-tests
-    environment:
-      - HEADLESS=true
-      - MOBILE=false
-    volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-report:/app/allure-report
-      - ./screenshots:/app/screenshots
-    command: npm run test:bugs
-    networks:
-      - test-network
-
-  # Allure Report Server
-  allure-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: herokuapp-allure-server
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./allure-results:/app/allure-results
-      - ./allure-report:/app/allure-report
-    command: npm run allure:serve
-    networks:
-      - test-network
-    depends_on:
-      - test-desktop
-
-networks:
-  test-network:
-    driver: bridge

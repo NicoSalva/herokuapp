@@ -1,6 +1,7 @@
 {
   "name": "herokuapp-test-suite",
   "version": "1.0.0",
+  "type": "module",
   "description": "Test suite for herokuapp application",
   "scripts": {
     "test": "wdio run wdio.desktop.conf.ts",

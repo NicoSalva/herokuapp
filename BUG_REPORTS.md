@@ -1,23 +1,36 @@
 # Bug Reports - Stranger List App
 
-Escribo simple y directo. Estos son los bugs que vi y cómo los cubren los tests.
+## BUG 1: Image Size Validation Issue
+**Expected:** Only 320x320px images should be accepted
+**Actual:** 100x100px images are accepted and items are created successfully
+**Steps to Reproduce:**
+1. Navigate to the application
+2. Enter any description text
+3. Upload a 100x100px image file
+4. Click Create Item button
+5. Item is created successfully (should be rejected)
+**Test Coverage:** `@bug-detection` tag in "reject images that are not 320x320px" scenario
+**Status:** Test currently fails (will pass when fixed)
 
-## BUG 1: Acepta imágenes que no son 320x320
-- Esperado: solo 320x320.
-- Actual: 100x100 pasa y crea el item.
-- Cómo verlo: correr `@bug-detection` en "reject images that are not 320x320px".
-- Estado: el test falla hoy (pasa cuando lo arreglen).
+## BUG 2: Description Length Validation
+**Expected:** Descriptions longer than 300 characters should be rejected or disable Create button
+**Actual:** App doesn't consistently block long descriptions
+**Steps to Reproduce:**
+1. Navigate to the application
+2. Enter a description with 350+ characters
+3. Upload any valid image
+4. Create button should be disabled (sometimes works, sometimes doesn't)
+**Test Coverage:** `@bug-detection` tag in "reject descriptions longer than 300 characters" scenario
+**Status:** Covered by test validation
 
-## BUG 2: Largo de descripción (>300) debería bloquear
-- Esperado: >300 deshabilita Create o rechaza.
-- Actual: la app no siempre lo bloquea. En nuestros tests validamos que el botón quede deshabilitado a 350.
-- Cómo verlo: `@bug-detection` en "reject descriptions longer than 300 characters".
-- Estado: cubierto por test.
-
-## BUG 3: Aspect ratio incorrecto (no cuadrado)
-- Esperado: solo cuadrado 320x320.
-- Actual: imágenes no cuadradas pueden pasar.
-- Cómo verlo: `@bug-detection` en "reject images with wrong aspect ratio".
-- Estado: cubierto por test.
-
-Listo. Corto y al pie.
+## BUG 3: Aspect Ratio Validation
+**Expected:** Only square 320x320px images should be accepted
+**Actual:** Non-square images can pass validation
+**Steps to Reproduce:**
+1. Navigate to the application
+2. Enter any description text
+3. Upload a non-square image (e.g., 320x200px)
+4. Click Create Item button
+5. Item is created successfully (should be rejected)
+**Test Coverage:** `@bug-detection` tag in "reject images with wrong aspect ratio" scenario
+**Status:** Covered by test validation

@@ -17,8 +17,11 @@ export const config = {
                 deviceName: testConfig.mobile.deviceName
             },
             args: [
+                '--headless',
                 '--no-sandbox',
                 '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--disable-setuid-sandbox',
                 '--disable-web-security',
                 '--disable-features=VizDisplayCompositor'
             ]

@@ -12,9 +12,10 @@ npm install
 
 ### Desktop
 ```bash
-npm test                    # All tests
-npm run test:smoke          # Smoke tests
-npm run test:functional     # Functional tests
+npm run test:desktop        # All desktop tests
+npm run test:exists         # Check item exists
+npm run test:edit           # Edit item tests
+npm run test:delete         # Delete item tests
 npm run test:bugs           # Bug detection tests
 ```
 
@@ -25,15 +26,23 @@ npm run test:mobile
 
 ### With Docker
 ```bash
-# All tests
-docker-compose up test-all
-
-# Desktop only
-docker-compose up test-desktop
-
-# Mobile only  
-docker-compose up test-mobile
+docker-compose up --build test-desktop
 ```
+
+**⚠️ Known Limitation:** Docker execution with Chrome requires **AMD64 architecture**. It does NOT work on ARM64 (Apple Silicon M1/M2) machines due to Chrome compatibility issues in emulated environments.
+
+**✅ Docker WILL work on:**
+- CI/CD pipelines (GitHub Actions, GitLab CI, Jenkins, etc.)
+- AMD64/x86_64 Linux servers
+- Intel-based machines
+
+**✅ Local execution works perfectly on:**
+- macOS (including M1/M2)
+- Linux
+- Windows
+
+**🚀 CI/CD - GitHub Actions:**
+This project includes automated testing workflow that runs both Desktop and Mobile tests on every push/PR. The workflow executes in a clean Linux AMD64 environment and generates Allure reports. See `.github/workflows/docker-tests.yml` and `.github/DOCKER_VALIDATION.md` for details.
 
 ## Tests
 
