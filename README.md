@@ -29,7 +29,7 @@ git --version
 ### Installation
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
+git clone <https://github.com/NicoSalva/herokuapp.git>
 cd herokuapp
 
 # 2. Install dependencies
@@ -111,16 +111,6 @@ npm run allure:open
 # Clean old reports
 npm run allure:clean
 ```
-
-## 📋 Test Coverage Matrix
-
-| Requirement | Feature File | Scenarios | Tags |
-|-------------|---------------|-----------|------|
-| **App Loading** | `basic-app.feature` | Application startup, navigation | `@smoke` |
-| **Item Creation** | `create-item.feature` | Valid creation, validation errors | `@functional` |
-| **Item Editing** | `edit-item.feature` | Text modification, persistence | `@functional` |
-| **Item Deletion** | `delete-item.feature` | Remove items, confirmation | `@functional` |
-| **Item Listing** | `check-item-exists.feature` | Display items, count validation | `@smoke` |
 
 ## ⚙️ Configuration & Scripts
 
