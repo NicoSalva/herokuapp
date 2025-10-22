@@ -61,9 +61,8 @@ docker compose up -d
 # Start Selenium Grid (Apple Silicon M1/M2)
 docker compose -f docker-compose.arm64.yml up -d
 
-# Run tests against Docker
-npm run test:docker:firefox
-npm run test:docker:chrome
+# Run tests against Docker (Firefox only)
+npm run test:docker
 
 # Stop containers
 docker compose down
@@ -119,8 +118,7 @@ npm run allure:clean
 - `npm run test:firefox` - Run with Firefox
 - `npm run test:chrome` - Run with Chrome
 - `npm run test:mobile` - Run mobile emulation
-- `npm run test:docker:firefox` - Run in Docker with Firefox
-- `npm run test:docker:chrome` - Run in Docker with Chrome
+- `npm run test:docker` - Run in Docker with Firefox
 
 ### Environment Variables
 - `BROWSER` - Browser to use (chrome/firefox)

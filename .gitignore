@@ -9,9 +9,12 @@ allure-report/
 allure-results/
 reports/
 test-results/
+screenshots/
 *.png
 *.jpg
 *.jpeg
+*.gif
+*.webp
 
 # Test artifacts (keep test assets but ignore generated files)
 test-assets/*.png
@@ -66,3 +69,23 @@ temp/
 
 # Snyk Security Extension - AI Rules (auto-generated)
 .cursor/rules/snyk_rules.mdc
+
+# Docker
+.dockerignore
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# TypeScript cache
+*.tsbuildinfo
+
+# WebdriverIO logs
+wdio.log*
+
+# Selenium logs
+selenium.log*
+geckodriver.log*
+chromedriver.log*
