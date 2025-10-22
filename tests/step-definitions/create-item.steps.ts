@@ -3,7 +3,6 @@ import { expect } from '@wdio/globals'
 import { CreateItemPage } from '../../src/pages/CreateItemPage.js'
 import { TestAssets } from '../../src/config/TestAssets.js'
 import { QAUtils } from '../../src/utils/QAUtils.js'
-import { ValidationUtils } from '../../src/utils/ValidationUtils.js'
 import { allureLogger } from '../../src/utils/AllureLogger.js'
 
 const createItemPage = new CreateItemPage()
@@ -15,7 +14,7 @@ const createItemPage = new CreateItemPage()
 When('I enter {string} in the description field', async (description: string) => {
     // Validate that the textarea is available before entering text
     const placeholder = await createItemPage.getTextareaPlaceholder()
-    ValidationUtils.expectToContain(placeholder, 'Maximum allowed length: 300 characters', 'Textarea placeholder validation')
+    await expect(placeholder).toContain('Maximum allowed length: 300 characters', { message: '❌ Expected textarea placeholder to contain \'Maximum allowed length: 300 characters\', but got: ' + placeholder })
     allureLogger('Textarea placeholder validated', placeholder)
     
     // Enter the description
@@ -24,7 +23,7 @@ When('I enter {string} in the description field', async (description: string) =>
     
     // Validate that the text was entered correctly
     const enteredText = await createItemPage.getTextareaValue()
-    ValidationUtils.expectToBe(enteredText, description, `Text entry validation (expected: '${description}', got: '${enteredText}')`)
+    await expect(enteredText).toBe(description, { message: `❌ Expected entered text to be '${description}', but got: '${enteredText}'` })
     allureLogger('Description validation passed', { expected: description, actual: enteredText })
 })
 
@@ -35,7 +34,7 @@ When('I enter a description with {int} characters', async (characterCount: numbe
     
     // Validate that the textarea is available before entering text
     const placeholder = await createItemPage.getTextareaPlaceholder()
-    ValidationUtils.expectToContain(placeholder, 'Maximum allowed length: 300 characters', 'Textarea placeholder validation')
+    await expect(placeholder).toContain('Maximum allowed length: 300 characters', { message: '❌ Expected textarea placeholder to contain \'Maximum allowed length: 300 characters\', but got: ' + placeholder })
     allureLogger('Textarea placeholder validated for long description', placeholder)
     
     // Enter the description
@@ -44,8 +43,8 @@ When('I enter a description with {int} characters', async (characterCount: numbe
     
     // Validate that the text was entered correctly
     const enteredText = await createItemPage.getTextareaValue()
-    ValidationUtils.expectToBe(enteredText, description, `Text entry validation (expected: '${description}', got: '${enteredText}')`)
-    ValidationUtils.expectToBe(enteredText.length, characterCount, `Text length validation (expected: ${characterCount}, got: ${enteredText.length})`)
+    await expect(enteredText).toBe(description, { message: `❌ Expected entered text to be '${description}', but got: '${enteredText}'` })
+    await expect(enteredText.length).toBe(characterCount, { message: `❌ Expected text length to be ${characterCount}, but got: ${enteredText.length}` })
     allureLogger('Long description validation passed', { 
         expectedLength: characterCount, 
         actualLength: enteredText.length 
@@ -148,6 +147,6 @@ When('I click the Create Item button', async () => {
 Then('the Create button should be disabled', async () => {
     const button = await $(createItemPage['locators'].createButton as string)
     const isEnabled = await button.isEnabled()
-    ValidationUtils.expectToBeFalse(isEnabled, `Create button state validation (got: ${isEnabled})`)
+    await expect(isEnabled).toBe(false, { message: `❌ Expected Create button to be disabled, but it was enabled: ${isEnabled}` })
     allureLogger('Create button is disabled as expected')
 })

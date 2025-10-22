@@ -6,7 +6,6 @@ import { CreateItemPage } from '../../src/pages/CreateItemPage.js'
 import { allureLogger } from '../../src/utils/AllureLogger.js'
 import { TestAssets } from '../../src/config/TestAssets.js'
 import { QAUtils } from '../../src/utils/QAUtils.js'
-import { ValidationUtils } from '../../src/utils/ValidationUtils.js'
 
 const listPage = new ItemListPage()
 const modal = new ConfirmationModalPage()
@@ -53,14 +52,14 @@ Then('I should see the current item in the list', async () => {
         async (item) => (await item.getText()).includes(currentItemText),
         { timeout: 30000, interval: 1000, timeoutMsg: `Temp item not found: ${currentItemText}` }
     )
-    ValidationUtils.expectToBeDefined(result.item, 'Item search validation')
+    await expect(result.item).toBeDefined({ message: '❌ Expected to find the current item in the list, but no item was found' })
     allureLogger('Temp item present in list', currentItemText)
 })
 
 When('I delete the item with text {string}', async (itemText: string) => {
     await QAUtils.waitForElementVisible('li[ng-repeat="item in items"]')
     const existsBefore = await listPage.isItemInList(itemText)
-    ValidationUtils.expectToBeTrue(existsBefore, `Item existence validation before deletion (item: '${itemText}')`)
+    await expect(existsBefore).toBe(true, { message: `❌ Expected item '${itemText}' to exist before deletion, but it was not found` })
     allureLogger('Item exists before delete', itemText)
 
     await listPage.clickDeleteForItem(itemText)
@@ -80,14 +79,14 @@ Then('I should not see the item with text {string}', async (itemText: string) =>
     }, { timeout: 15000, interval: 1000, timeoutMsg: `Item "${itemText}" did not disappear after delete` })
 
     const existsAfter = await listPage.isItemInList(itemText)
-    ValidationUtils.expectToBeFalse(existsAfter, `Item deletion validation (item: '${itemText}')`)
+    await expect(existsAfter).toBe(false, { message: `❌ Expected item '${itemText}' to be deleted from list, but it still exists` })
     allureLogger('Verified item was deleted from list', itemText)
 })
 
 When('I delete the current item', async () => {
     await QAUtils.waitForElementVisible('li[ng-repeat="item in items"]')
     const existsBefore = await listPage.isItemInList(currentItemText)
-    ValidationUtils.expectToBeTrue(existsBefore, `Current item existence validation before deletion (item: '${currentItemText}')`)
+    await expect(existsBefore).toBe(true, { message: `❌ Expected current item '${currentItemText}' to exist before deletion, but it was not found` })
     allureLogger('Current item exists before delete', currentItemText)
 
     await listPage.clickDeleteForItem(currentItemText)
@@ -106,7 +105,7 @@ Then('I should not see the current item', async () => {
     }, { timeout: 15000, interval: 1000, timeoutMsg: `Item not deleted: ${currentItemText}` })
 
     const existsAfter = await listPage.isItemInList(currentItemText)
-    ValidationUtils.expectToBeFalse(existsAfter, `Current item deletion validation (item: '${currentItemText}')`)
+    await expect(existsAfter).toBe(false, { message: `❌ Expected current item '${currentItemText}' to be deleted from list, but it still exists` })
     allureLogger('Verified current item was deleted from list', currentItemText)
 })
 
