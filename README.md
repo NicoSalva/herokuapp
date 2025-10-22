@@ -41,6 +41,14 @@ npm run test:firefox
 
 ## 🎯 Running Tests
 
+### Production Features
+- **🔒 Locked Versions**: Deterministic builds with exact package versions
+- **📄 .nvmrc**: Node.js v20 for consistent environments
+- **🐳 Docker Optimized**: Faster builds with .dockerignore
+- **⏱️ Smart Waits**: Healthchecks and wait scripts prevent "session not created" errors
+- **🔄 Intelligent Retries**: Optimized retry configuration for stability
+- **🚀 GitHub Actions**: Matrix testing with Chrome/Firefox + Headless/Visible + Tags
+
 ### Desktop Tests (Chrome/Firefox)
 ```bash
 # Firefox (recommended)
@@ -250,12 +258,25 @@ MOBILE=true npm run test:chrome
 ```
 
 ### CI/CD Integration
+
+#### GitHub Actions
+The project includes automated testing via GitHub Actions with:
+
+- **Matrix Testing**: Chrome/Firefox + Headless/Visible + Tags
+- **Docker Testing**: Selenium Grid with Firefox
+- **Allure Reports**: Generated as artifacts (30-day retention)
+- **Deterministic Builds**: Using `npm ci` and locked versions
+
+#### Local CI Simulation
 ```bash
-# Install dependencies
+# Install dependencies (deterministic)
 npm ci
 
 # Run smoke tests
 TAGS='@smoke' npm run test:firefox
+
+# Run with specific browser and headless mode
+BROWSER=chrome HEADLESS=true TAGS='@functional' npm run test
 
 # Generate reports
 npm run allure:generate
