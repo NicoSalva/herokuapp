@@ -8,7 +8,6 @@ yarn-error.log*
 allure-report/
 allure-results/
 reports/
-screenshots/
 test-results/
 *.png
 *.jpg

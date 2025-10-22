@@ -4,6 +4,7 @@ import { TestConfigManager } from '../../src/config/TestConfig.js'
 import { CreateItemPage } from '../../src/pages/CreateItemPage.js'
 import { ItemListPage } from '../../src/pages/ItemListPage.js'
 import { QAUtils } from '../../src/utils/QAUtils.js'
+import { ValidationUtils } from '../../src/utils/ValidationUtils.js'
 import { allureLogger } from '../../src/utils/AllureLogger.js'
 
 const configManager = TestConfigManager.getInstance()
@@ -41,7 +42,7 @@ Given('I am on the Stranger List application', async () => {
     
     // Validate that we're on the correct page
     const title = await browser.getTitle()
-    expect(title).toContain('Stranger List')
+    ValidationUtils.expectToContain(title, 'Stranger List', 'Page title validation')
     allureLogger('Page title validated', title)
     
     // Wait for the form to be visible using advanced waiting strategy
@@ -50,7 +51,7 @@ Given('I am on the Stranger List application', async () => {
     
     // Validate that the form is visible
     const isFormVisible = await createItemPage.isFormVisible()
-    expect(isFormVisible).toBe(true)
+    ValidationUtils.expectToBeTrue(isFormVisible, 'Form visibility validation')
     allureLogger('Form visibility validated', isFormVisible)
 })
 
@@ -72,14 +73,14 @@ When('the page loads completely', async () => {
 
 Then('I should see the {string} title', async (expectedTitle: string) => {
     const title = await browser.getTitle()
-    expect(title).toContain(expectedTitle)
+    ValidationUtils.expectToContain(title, expectedTitle, 'Page title validation')
     allureLogger('Page title validated', { expected: expectedTitle, actual: title })
 })
 
 Then('I should be on the correct URL', async () => {
     const config = configManager.getConfig()
     const currentUrl = await browser.getUrl()
-    expect(currentUrl).toContain(config.baseUrl.replace('http://', '').replace('https://', ''))
+    ValidationUtils.expectToContain(currentUrl, config.baseUrl.replace('http://', '').replace('https://', ''), 'URL validation')
     allureLogger('URL validation passed', { expected: config.baseUrl, actual: currentUrl })
 })
 
@@ -113,7 +114,7 @@ Then('the item count should increase by {int}', async (expectedIncrease: number)
     if (match && match[1]) {
         const currentCount = parseInt(match[1])
         const initialCount = (global as any).initialItemCount || 0
-        expect(currentCount).toBe(initialCount + expectedIncrease)
+        ValidationUtils.expectToBe(currentCount, initialCount + expectedIncrease, `Item count validation (expected: ${initialCount + expectedIncrease}, got: ${currentCount})`)
         allureLogger('Item count increased as expected', { 
             initial: initialCount, 
             current: currentCount, 
@@ -133,7 +134,7 @@ Then('the item count should NOT increase', async () => {
         const initialCount = (global as any).initialItemCount || 0
         
         if (currentCount === initialCount) {
-            expect(currentCount).toBe(initialCount)
+            ValidationUtils.expectToBe(currentCount, initialCount, `Item count validation - no increase expected (got: ${currentCount})`)
             allureLogger('Item count validation passed - no increase detected', { 
                 initial: initialCount, 
                 current: currentCount 
@@ -151,12 +152,12 @@ Then('the item count should NOT increase', async () => {
 Then('I should see the new item in the list', async () => {
     // Validate that the item count increased
     const itemCount = await itemListPage.getItemCount()
-    expect(itemCount).toBeGreaterThan(0)
+    ValidationUtils.expectToBeGreaterThan(itemCount, 0, `Item count validation (got: ${itemCount})`)
     allureLogger('Item list contains items', { count: itemCount })
     
     // Validate that the list is visible and has content
     const allItems = await itemListPage.getAllItemTexts()
-    expect(allItems.length).toBeGreaterThan(0)
+    ValidationUtils.expectToBeGreaterThan(allItems.length, 0, `Item list validation (got: ${allItems.length} items)`)
     allureLogger('Item list validation passed', { totalItems: allItems.length })
 })
 
@@ -178,9 +179,9 @@ Then('the item should contain the text {string}', async (expectedText: string) =
     )
     
     // Additional validation
-    expect(result.item).toBeDefined()
+    ValidationUtils.expectToBeDefined(result.item, 'Item search validation')
     const itemText = await result.item.getText()
-    expect(itemText).toContain(expectedText)
+    ValidationUtils.expectToContain(itemText, expectedText, `Item text validation (expected: '${expectedText}', got: '${itemText}')`)
     
     allureLogger('Item found in list with expected text', { 
         index: result.index, 
