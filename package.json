@@ -18,15 +18,11 @@
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
     "allure:serve": "allure serve allure-results",
-    "lint": "echo 'Linting skipped - using Prettier only'",
-    "lint:fix": "echo 'Linting skipped - using Prettier only'",
     "format": "prettier --write src/ tests/ config/",
     "format:check": "prettier --check src/ tests/ config/"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
-    "@typescript-eslint/parser": "^8.46.2",
     "@wdio/allure-reporter": "^8.35.0",
     "@wdio/cli": "^8.35.0",
     "@wdio/cucumber-framework": "^8.35.0",
@@ -34,9 +30,6 @@
     "@wdio/spec-reporter": "^8.35.0",
     "@wdio/types": "^8.41.0",
     "allure-commandline": "^2.34.1",
-    "eslint": "^9.38.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
     "rimraf": "^5.0.10",
     "typescript": "^5.4.5"
