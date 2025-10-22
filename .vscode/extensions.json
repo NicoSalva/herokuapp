@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "alexkrechik.cucumberautocomplete",
+    "stevejpurves.cucumber-runner",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode"
+  ]
+}
