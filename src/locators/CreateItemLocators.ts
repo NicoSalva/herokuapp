@@ -1,101 +1,101 @@
-import { BaseLocators } from './BaseLocators.js'
+import { BaseLocators } from './BaseLocators';
 
 /**
  * Create Item Page Locators
  * Contains all selectors for the Create Item page
  */
 export class CreateItemLocators extends BaseLocators {
-    // Desktop selectors
-    private readonly desktopSelectors = {
-        // Form elements
-        formSection: 'form[name="strangerlist.detailsForm"]',
-        textarea: 'textarea[name="text"]',
-        imageInput: 'input[type="file"][id="inputImage"]',
-        createButton: 'button[ng-click*="createItem"]',
-        
-        // Common elements
-        loadingSpinner: '[data-testid="loading"]',
-        errorMessage: '[data-testid="error"]',
-        successMessage: '[data-testid="success"]'
-    }
+  // Desktop selectors
+  private readonly desktopSelectors = {
+    // Form elements
+    formSection: 'form[name="strangerlist.detailsForm"]',
+    textarea: 'textarea[name="text"]',
+    imageInput: 'input[type="file"][id="inputImage"]',
+    createButton: 'button[ng-click*="createItem"]',
 
-    // Mobile selectors (can be different if needed)
-    private readonly mobileSelectors = {
-        // Form elements (same as desktop for this app)
-        formSection: 'form[name="strangerlist.detailsForm"]',
-        textarea: 'textarea[name="text"]',
-        imageInput: 'input[type="file"][id="inputImage"]',
-        createButton: 'button[ng-click*="createItem"]',
-        
-        // Common elements
-        loadingSpinner: '[data-testid="loading"]',
-        errorMessage: '[data-testid="error"]',
-        successMessage: '[data-testid="success"]'
-    }
+    // Common elements
+    loadingSpinner: '[data-testid="loading"]',
+    errorMessage: '[data-testid="error"]',
+    successMessage: '[data-testid="success"]',
+  };
 
-    /**
-     * Get all selectors for the current device
-     */
-    getSelectors(): Record<string, string> {
-        // For now, return desktop selectors
-        // In the future, this can be enhanced to detect device type
-        return this.desktopSelectors;
-    }
+  // Mobile selectors (can be different if needed)
+  private readonly mobileSelectors = {
+    // Form elements (same as desktop for this app)
+    formSection: 'form[name="strangerlist.detailsForm"]',
+    textarea: 'textarea[name="text"]',
+    imageInput: 'input[type="file"][id="inputImage"]',
+    createButton: 'button[ng-click*="createItem"]',
 
-    /**
-     * Get specific selector by name
-     */
-    getSelector(name: keyof typeof this.desktopSelectors): string {
-        const selectors = this.getSelectors();
-        return selectors[name] || '';
-    }
+    // Common elements
+    loadingSpinner: '[data-testid="loading"]',
+    errorMessage: '[data-testid="error"]',
+    successMessage: '[data-testid="success"]',
+  };
 
-    /**
-     * Get form section selector
-     */
-    get formSection(): string {
-        return this.getSelector('formSection');
-    }
+  /**
+   * Get all selectors for the current device
+   */
+  getSelectors(): Record<string, string> {
+    // For now, return desktop selectors
+    // In the future, this can be enhanced to detect device type
+    return this.desktopSelectors;
+  }
 
-    /**
-     * Get textarea selector
-     */
-    get textarea(): string {
-        return this.getSelector('textarea');
-    }
+  /**
+   * Get specific selector by name
+   */
+  getSelector(name: keyof typeof this.desktopSelectors): string {
+    const selectors = this.getSelectors();
+    return selectors[name] || '';
+  }
 
-    /**
-     * Get image input selector
-     */
-    get imageInput(): string {
-        return this.getSelector('imageInput');
-    }
+  /**
+   * Get form section selector
+   */
+  get formSection(): string {
+    return this.getSelector('formSection');
+  }
 
-    /**
-     * Get create button selector
-     */
-    get createButton(): string {
-        return this.getSelector('createButton');
-    }
+  /**
+   * Get textarea selector
+   */
+  get textarea(): string {
+    return this.getSelector('textarea');
+  }
 
-    /**
-     * Get loading spinner selector
-     */
-    get loadingSpinner(): string {
-        return this.getSelector('loadingSpinner');
-    }
+  /**
+   * Get image input selector
+   */
+  get imageInput(): string {
+    return this.getSelector('imageInput');
+  }
 
-    /**
-     * Get error message selector
-     */
-    get errorMessage(): string {
-        return this.getSelector('errorMessage');
-    }
+  /**
+   * Get create button selector
+   */
+  get createButton(): string {
+    return this.getSelector('createButton');
+  }
 
-    /**
-     * Get success message selector
-     */
-    get successMessage(): string {
-        return this.getSelector('successMessage');
-    }
+  /**
+   * Get loading spinner selector
+   */
+  get loadingSpinner(): string {
+    return this.getSelector('loadingSpinner');
+  }
+
+  /**
+   * Get error message selector
+   */
+  get errorMessage(): string {
+    return this.getSelector('errorMessage');
+  }
+
+  /**
+   * Get success message selector
+   */
+  get successMessage(): string {
+    return this.getSelector('successMessage');
+  }
 }

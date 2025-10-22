@@ -7,14 +7,15 @@ import allure from '@wdio/allure-reporter';
  * @param {any} value Optional - Value to display in Allure report
  */
 export const allureLogger = (message: string, value?: any) => {
-    try {
-        // Simple approach - just add step
-        const stepName = value === undefined || !value ? message : `${message} ▶️ ${JSON.stringify(value)}`;
-        allure.addStep(stepName);
-        
-        // Also log to console for debugging
-        console.log(`[Allure Step] ${stepName}`);
-    } catch (error) {
-        console.log(`[Allure Error] ${message}${value ? ` ▶️ ${JSON.stringify(value)}` : ''}`);
-    }
-}
+  try {
+    // Simple approach - just add step
+    const stepName =
+      value === undefined || !value ? message : `${message} ▶️ ${JSON.stringify(value)}`;
+    allure.addStep(stepName);
+
+    // Also log to console for debugging
+    console.log(`[Allure Step] ${stepName}`);
+  } catch (error) {
+    console.log(`[Allure Error] ${message}${value ? ` ▶️ ${JSON.stringify(value)}` : ''}`);
+  }
+};

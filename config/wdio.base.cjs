@@ -1,75 +1,50 @@
 const path = require('path');
 
-function makeConfig() {
-  const isHeadless = (process.env.HEADLESS ?? 'true') !== 'false';
-  const browser = (process.env.BROWSER ?? 'chrome').toLowerCase();
-  const isMobile = (process.env.MOBILE ?? 'false') === 'true';
-  const tags = process.env.TAGS ?? '';
-  const spec = process.env.SPEC;
+exports.makeConfig = (overrides = {}) => ({
+  runner: 'local',
+  specs: [path.resolve(__dirname, '../dist/tests/features/**/*.feature')],
+  maxInstances: 1,
+  logLevel: 'info',
 
-  const chromeArgs = [
-    isHeadless ? '--headless=new' : '',
-    '--no-sandbox',
-    '--disable-dev-shm-usage',
-    '--window-size=1366,768',
-  ].filter(Boolean);
+  framework: 'cucumber',
+  cucumberOpts: {
+    require: [path.resolve(__dirname, '../dist/tests/step-definitions/**/*.js')],
+    timeout: 60000,
+    tagExpression: process.env.TAGS || '',
+    retry: 1,
+  },
 
-  const capabilities = browser === 'firefox'
-    ? [{
-        browserName: 'firefox',
-        acceptInsecureCerts: true,
-        'moz:firefoxOptions': { args: [isHeadless ? '-headless' : ''] }
-      }]
-    : [{
-        browserName: 'chrome',
-        acceptInsecureCerts: true,
-        'goog:chromeOptions': {
-          args: chromeArgs,
-          ...(isMobile
-            ? {
-                mobileEmulation: {
-                  deviceMetrics: { width: 412, height: 915, pixelRatio: 2 },
-                  userAgent: 'Mobile'
-                }
-              }
-            : {})
-        }
-      }];
+  // Anti-flaky configuration
+  specFileRetries: 1,
+  specFileRetryDelay: 1000,
+  specFileRetryAttempts: 2,
 
-  const cfg = {
-    runner: 'local',
-    specs: spec ? [spec] : [path.resolve(__dirname, '../tests/features/**/*.feature')],
-    maxInstances: 1,
-    logLevel: 'info',
-
-    framework: 'cucumber',
-    cucumberOpts: {
-      requireModule: ['ts-node/register/transpile-only'],
-      require: [path.resolve(__dirname, '../tests/step-definitions/**/*.ts')],
-      timeout: 60000,
-      tagExpression: tags
-    },
-
-    reporters: [
-      'spec',
-      ['allure', {
+  reporters: [
+    'spec',
+    [
+      'allure',
+      {
         outputDir: 'allure-results',
         useCucumberStepReporter: true,
         disableWebdriverStepsReporting: true,
-      }]
+      },
     ],
+  ],
 
-    automationProtocol: 'webdriver',
+  automationProtocol: 'webdriver',
+  waitforTimeout: 10000,
+  connectionRetryTimeout: 120000,
+  connectionRetryCount: 2,
 
-    hostname: process.env.WDIO_HOST || undefined,
-    port: process.env.WDIO_PORT ? Number(process.env.WDIO_PORT) : undefined,
-    path: process.env.WDIO_PATH || undefined,
+  // Screenshots on failure
+  afterStep: function (step, context, { error, result, duration, passed, retries }) {
+    if (error) {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const screenshotName = `failure-${timestamp}.png`;
+      browser.saveScreenshot(`./screenshots/${screenshotName}`);
+      console.log(`Screenshot saved: ${screenshotName}`);
+    }
+  },
 
-    capabilities
-  };
-
-  return cfg;
-}
-
-module.exports = { makeConfig };
-module.exports.default = makeConfig();
+  ...overrides,
+});

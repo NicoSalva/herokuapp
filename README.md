@@ -1,380 +1,269 @@
-# Stranger List - Test Suite
+# 🧪 Herokuapp Test Suite
 
-Automated test suite for the Stranger List application using WebdriverIO, TypeScript, and Cucumber.
+**Test automation suite for the Herokuapp application** using WebdriverIO, Cucumber, and Allure reporting. Designed for both manual testers and automation engineers.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+- **Node.js**: v18+ (recommended v20)
+- **Docker**: v24+ (optional, for containerized testing)
+- **Git**: Latest version
 
-**Required Software:**
-- Node.js 18+ ([Download here](https://nodejs.org/))
-- Docker Desktop ([Download here](https://www.docker.com/products/docker-desktop/))
-- Git ([Download here](https://git-scm.com/))
+### System Requirements
+- **macOS**: 10.15+ (Intel/Apple Silicon)
+- **Windows**: 10+ (with WSL2 recommended)
+- **Linux**: Ubuntu 20.04+ or equivalent
 
-**System Requirements:**
-- **macOS**: 10.15+ (Catalina or newer)
-- **Windows**: Windows 10+ (64-bit)
-- **Linux**: Ubuntu 18.04+ or equivalent
-- **RAM**: 4GB minimum, 8GB recommended
-- **Disk Space**: 2GB free space
-
-**Verify Installation:**
+### Verify Setup
 ```bash
-node --version    # Should show v18+ 
-docker --version  # Should show Docker version
-git --version     # Should show Git version
+# Check Node.js version
+node --version  # Should be v18+
+
+# Check Docker (optional)
+docker --version  # Should be v24+
+
+# Check Git
+git --version
 ```
 
-### Step-by-Step Installation
-
-**1. Clone the Repository**
+### Installation
 ```bash
+# 1. Clone the repository
 git clone <repository-url>
 cd herokuapp
-```
 
-**2. Install Dependencies**
-```bash
+# 2. Install dependencies
 npm install
+
+# 3. Verify installation
+npm run test:firefox
 ```
 
-**3. Verify Setup**
+## 🎯 Running Tests
+
+### Desktop Tests (Chrome/Firefox)
 ```bash
-# Test local Chrome
-BROWSER=chrome HEADLESS=true npm run test
-
-# Test local Firefox  
-BROWSER=firefox HEADLESS=true npm run test
-
-# Test local Mobile
-MOBILE=true npm run test
-```
-
-**4. Test Docker (Optional)**
-```bash
-# Test Docker (Desktop + Mobile)
-docker-compose up --build test
-```
-
-## 🖥️ Local Execution
-
-### Basic Test Execution
-```bash
-# Chrome (default)
-BROWSER=chrome HEADLESS=true npm run test
-
-# Firefox
-BROWSER=firefox HEADLESS=true npm run test
-
-# Mobile emulation
-MOBILE=true npm run test
-
-# Specific feature file
-SPEC=./tests/features/create-item.feature npm run test
-```
-
-### Using Predefined Scripts
-```bash
-# Chrome tests
-npm run test:chrome
-
-# Firefox tests  
+# Firefox (recommended)
 npm run test:firefox
 
-# Mobile tests
+# Chrome
+npm run test:chrome
+
+# Mobile emulation
 npm run test:mobile
-
-# Docker tests
-npm run test:docker
 ```
 
-### Running Tests by Tags
+### Docker Execution
 ```bash
-# Single tags
-TAGS='@smoke' npm run test:chrome
-TAGS='@functional' npm run test:firefox
-TAGS='@bug-detection' npm run test:mobile
+# Start Selenium Grid (Intel/AMD64)
+docker compose up -d
 
-# Logical expressions
-TAGS='@smoke and not @bug-detection' npm run test:chrome
-TAGS='@functional or @validation' npm run test:firefox
-TAGS='@edit and not @delete' npm run test:chrome
+# Start Selenium Grid (Apple Silicon M1/M2)
+docker compose -f docker-compose.arm64.yml up -d
 
-# Multiple combinations
-TAGS='@smoke' BROWSER=firefox npm run test
-TAGS='@functional' MOBILE=true npm run test
+# Run tests against Docker
+npm run test:docker:firefox
+npm run test:docker:chrome
+
+# Stop containers
+docker compose down
 ```
-
-## 🐳 Docker Execution
-
-### Run Tests in Container
-```bash
-docker-compose up --build test
-```
-
-**Docker runs both desktop and mobile tests using Firefox for maximum compatibility.**
-
-
-**✅ Docker works on ALL platforms:**
-- ✅ Apple Silicon M1/M2 (using Firefox)
-- ✅ Intel/AMD64 machines (using Firefox)
-- ✅ CI/CD pipelines
-- ✅ All Linux distributions
 
 ## 🏷️ Running Tests by Tags
 
 ### Available Tags
-- `@smoke` - Basic application loading
-- `@functional` - Core functionality tests
-- `@validation` - Input validation tests
-- `@bug-detection` - Validation and bug detection tests
-- `@exists` - Check if specific items exist
-- `@edit` - Edit functionality tests
-- `@delete` - Delete functionality tests
-- `@basic` - Basic functionality tests
+- `@smoke` - Critical functionality tests (fast, ~2 min)
+- `@functional` - Full feature tests (complete, ~10 min)
+- `@bug` - Regression tests (specific issues)
 
-### Tag Expression Examples
+### Tag Execution
 ```bash
-# Single tags
-TAGS='@smoke' npm run test:chrome
-TAGS='@functional' npm run test:firefox
-TAGS='@bug-detection' npm run test:mobile
+# Run smoke tests (recommended for quick validation)
+TAGS='@smoke' npm run test:firefox
 
-# Logical expressions
-TAGS='@smoke and not @bug-detection' npm run test:chrome
-TAGS='@functional or @validation' npm run test:firefox
-TAGS='@edit and not @delete' npm run test:chrome
+# Run specific feature
+SPEC='./dist/tests/features/create-item.feature' npm run test:firefox
 
-# Complex expressions
-TAGS='@smoke and (@functional or @validation)' npm run test:chrome
-TAGS='not @bug-detection and (@edit or @delete)' npm run test:firefox
-
-# With different browsers and mobile
-TAGS='@smoke' BROWSER=firefox npm run test
-TAGS='@functional' MOBILE=true npm run test
-TAGS='@validation' BROWSER=chrome HEADLESS=false npm run test
+# Run with multiple tags
+TAGS='@smoke and @functional' npm run test:firefox
 ```
 
-### Tag Expression Syntax
-- **AND**: `@smoke and @functional`
-- **OR**: `@smoke or @functional`  
-- **NOT**: `not @bug-detection`
-- **Parentheses**: `@smoke and (@functional or @validation)`
-- **Complex**: `@smoke and not (@bug-detection or @validation)`
+## 📊 Allure Reports
+
+### Generate and View Reports
+```bash
+# Generate report
+npm run allure:generate
+
+# Open report in browser
+npm run allure:open
+
+# Clean old reports
+npm run allure:clean
+```
+
+## 📋 Test Coverage Matrix
+
+| Requirement | Feature File | Scenarios | Tags |
+|-------------|---------------|-----------|------|
+| **App Loading** | `basic-app.feature` | Application startup, navigation | `@smoke` |
+| **Item Creation** | `create-item.feature` | Valid creation, validation errors | `@functional` |
+| **Item Editing** | `edit-item.feature` | Text modification, persistence | `@functional` |
+| **Item Deletion** | `delete-item.feature` | Remove items, confirmation | `@functional` |
+| **Item Listing** | `check-item-exists.feature` | Display items, count validation | `@smoke` |
 
 ## ⚙️ Configuration & Scripts
 
-### Centralized Configuration
-This project uses a **unified WebdriverIO configuration** (`wdio/wdio.conf.ts`) that dynamically adapts based on environment variables:
-
-- **Single config file** handles all scenarios (Chrome, Firefox, Mobile, Docker)
-- **Environment variables** control browser, headless mode, mobile emulation, and tags
-- **No duplicate configs** - everything is managed in one place
-
-### Available Scripts
-```bash
-# Basic execution
-npm run test                    # Default configuration
-npm run test:chrome            # Chrome with headless
-npm run test:firefox           # Firefox with headless  
-npm run test:mobile            # Mobile emulation
-npm run test:docker            # Docker execution
-
-# Report management
-npm run allure:generate         # Generate Allure report
-npm run allure:open            # Open Allure report
-npm run allure:serve           # Serve Allure report
-npm run allure:clean           # Clean old reports
-```
+### Main Scripts
+- `npm run test` - Run all tests (default: Chrome)
+- `npm run test:firefox` - Run with Firefox
+- `npm run test:chrome` - Run with Chrome
+- `npm run test:mobile` - Run mobile emulation
+- `npm run test:docker:firefox` - Run in Docker with Firefox
+- `npm run test:docker:chrome` - Run in Docker with Chrome
 
 ### Environment Variables
-```bash
-# Browser selection
-BROWSER=chrome                  # or firefox
-HEADLESS=true                  # or false (to see browser)
-MOBILE=true                    # Enable mobile emulation
-
-# Test filtering
-TAGS='@smoke'                  # Tag expressions
-SPEC=./tests/features/...      # Specific feature file
-
-# Mobile settings
-MOBILE_WIDTH=412               # Mobile width
-MOBILE_HEIGHT=915              # Mobile height
-```
-
-## 📊 Test Reports
-
-### Generate Reports
-```bash
-npm run allure:generate
-npm run allure:open
-```
-
-### View Reports
-- **Allure Report**: `npm run allure:open`
-- **Serve Reports**: `npm run allure:serve`
-
-## 🧪 Test Coverage
-
-### Functional Tests
-- ✅ Application loads successfully
-- ✅ Create new items
-- ✅ Edit existing items  
-- ✅ Delete items
-- ✅ Check item exists: "Creators: Matt Duffer, Ross Duffer"
-
-### Validation Tests (Bug Detection)
-- ✅ Image size validation (320x320px)
-- ✅ Description length validation (300 chars max)
-- ✅ Image aspect ratio validation
-
-## 🐛 Bug Reports
-
-See `BUG_REPORTS.md` for detailed bug documentation.
+- `BROWSER` - Browser to use (chrome/firefox)
+- `HEADLESS` - Run headless (true/false)
+- `MOBILE` - Mobile emulation (true/false)
+- `TAGS` - Cucumber tag expression
+- `SPEC` - Specific feature file
 
 ## 🔍 Debugging & Visualization
 
-### Running Tests with Visible Browsers
-```bash
-# See Chrome in action (for debugging)
-HEADLESS=false npm run test:chrome
+### Screenshots
+- Automatically captured on test failures
+- Stored in `screenshots/` directory
+- Attached to Allure reports
 
-# See Firefox in action (for debugging)
-HEADLESS=false npm run test:firefox
+### Logs
+- Detailed WebDriver logs in console
+- Allure step-by-step execution logs
+- Error traces with stack information
 
-# Mobile emulation with visible browser
-HEADLESS=false MOBILE=true npm run test:chrome
-```
-
-### Why HEADLESS Mode?
-- **HEADLESS=true**: Browser runs without visible window (faster, CI/CD friendly)
-- **HEADLESS=false**: Browser opens visible window (useful for debugging)
-- **Default**: Tests run in headless mode for speed and compatibility
-
-### Debugging Tips
-```bash
-# Run specific test with visible browser
-HEADLESS=false TAGS='@smoke' npm run test:chrome
-
-# Run mobile test with visible browser
-HEADLESS=false MOBILE=true TAGS='@functional' npm run test:chrome
-
-# Run single feature with visible browser
-HEADLESS=false SPEC=./tests/features/create-item.feature npm run test:chrome
-```
-
-## 🔧 Troubleshooting
+## 🐛 Troubleshooting
 
 ### Common Issues
 
-**Node.js Version Issues:**
+**Docker not starting:**
 ```bash
-# Check Node version
-node --version
+# Check Docker status
+docker ps
 
-# If version is too old, update Node.js
-# Download from https://nodejs.org/
+# Restart Docker Desktop
+# Or run: docker compose up -d
 ```
 
-**Docker Issues:**
+**Tests failing locally:**
 ```bash
-# Check Docker is running
-docker --version
+# Clean and reinstall
+rm -rf node_modules package-lock.json
+npm install
 
-# Start Docker Desktop if not running
-# On macOS: Open Docker Desktop app
-# On Windows: Start Docker Desktop
+# Check browser drivers
+npm run test:firefox
 ```
 
-**Permission Issues (Linux/macOS):**
-```bash
-# Fix npm permissions
-sudo chown -R $(whoami) ~/.npm
-```
-
-**Chrome/Firefox Not Found:**
-```bash
-# Install Chrome (if not present)
-# Download from https://www.google.com/chrome/
-
-# Install Firefox (if not present)  
-# Download from https://www.mozilla.org/firefox/
-```
-
-**Docker Build Fails:**
-```bash
-# Clean Docker cache
-docker system prune -a
-
-# Rebuild from scratch
-docker-compose up --build --force-recreate test
-```
-
-**Allure Reports Not Working:**
+**Allure reports empty:**
 ```bash
 # Clean and regenerate
 npm run allure:clean
 npm run allure:generate
-npm run allure:open
 ```
 
+### Performance Tips
+- Use `HEADLESS=true` for faster execution
+- Run `@smoke` tests for quick validation
+- Use Docker for consistent environments
 
-## 🛠️ Tech Stack
+## 🏗️ Project Structure
 
-- **WebdriverIO** + TypeScript
-- **Cucumber/Gherkin** for BDD
-- **Page Object Model** pattern
-- **Allure** reporting
-- **Docker** support
-- **Cross-platform** compatibility
+```
+herokuapp/
+├── config/                 # WebdriverIO configurations
+│   ├── wdio.base.cjs      # Base configuration
+│   ├── wdio.conf.cjs      # Local execution
+│   └── wdio.docker.cjs    # Docker execution
+├── tests/                  # Test files
+│   ├── features/          # Gherkin feature files
+│   └── step-definitions/  # Cucumber step definitions
+├── src/                    # Page objects and utilities
+│   ├── pages/             # Page Object Model
+│   ├── locators/          # Element selectors
+│   └── utils/             # Helper functions
+├── dist/                   # Compiled TypeScript
+├── allure-results/         # Allure test results
+├── allure-report/          # Generated Allure reports
+└── screenshots/            # Failure screenshots
+```
 
-## 📝 BDD Approach for Manual Testers
+## 🤝 Contributing
 
-This test suite is designed to be easily understood by manual testers with limited technical knowledge. We use:
+### For Manual Testers
+1. **Feature Files**: Add new scenarios in `tests/features/`
+2. **Step Definitions**: Implement steps in `tests/step-definitions/`
+3. **Page Objects**: Create page classes in `src/pages/`
+4. **Tags**: Use appropriate tags (`@smoke`, `@functional`, `@bug`)
 
-**BDD Structure**: All tests are written in plain English using Gherkin syntax, making them readable for both technical and non-technical team members.
+### For Developers
+1. **Configuration**: Modify `config/wdio.*.cjs` files
+2. **Utilities**: Add helper functions in `src/utils/`
+3. **Locators**: Update selectors in `src/locators/`
 
-**Step Definitions**: Each test step is clearly defined and documented, so manual testers can understand exactly what each test does.
+## 📚 BDD Approach for Manual Testers
 
-**AllureLogger**: We generate detailed reports in Allure that show exactly what each step does internally, making it easy to understand test execution and debug issues.
+This project uses **Behavior-Driven Development (BDD)** with Gherkin syntax, making it accessible for manual testers:
 
-**Clear Test Names**: Test scenarios have descriptive names that explain the business logic being tested.
+### Gherkin Features
+- **Given/When/Then** structure for clear test scenarios
+- **Natural language** that describes business behavior
+- **Reusable steps** across different test cases
 
-## 🔧 Solution Architecture & Challenges
+### Step Definitions
+- **Page Object Model** for maintainable selectors
+- **AllureLogger** for detailed execution reports
+- **Helper utilities** for common operations
 
-### The Chrome Docker Problem
+### Example Test Flow
+```gherkin
+Given I am on the Stranger List application
+When I enter "Test item" in the description field
+And I upload an image file
+And I click the Create Item button
+Then the item count should increase by 1
+And I should see the new item in the list
+```
 
-During development, we encountered a significant challenge with Chrome in Docker containers on Apple Silicon (M1/M2) machines:
+## 🚀 Advanced Usage
 
-**Problem**: Chrome headless mode fails with "Unable to receive message from renderer" errors when running in Docker containers on ARM64 architecture (Apple Silicon).
+### Custom Configurations
+```bash
+# Run with custom browser settings
+BROWSER=firefox HEADLESS=false npm run test
 
-**Root Cause**: The issue stems from Chrome's architecture emulation when running AMD64 containers on ARM64 hosts. Chrome's headless mode has compatibility issues with the emulation layer, causing communication failures between the browser and WebDriver.
+# Run specific scenarios
+TAGS='@smoke and not @bug' npm run test:firefox
 
-### Our Solution
+# Run with mobile emulation
+MOBILE=true npm run test:chrome
+```
 
-**Local Development**: 
-- Chrome works perfectly for local development
-- Firefox also works locally and provides an alternative
+### CI/CD Integration
+```bash
+# Install dependencies
+npm ci
 
-**Docker/CI Environment**:
-- Firefox is used exclusively in Docker containers
-- Firefox has better compatibility with ARM64→AMD64 emulation
-- This ensures consistent behavior across all platforms
+# Run smoke tests
+TAGS='@smoke' npm run test:firefox
 
-### Why This Approach
+# Generate reports
+npm run allure:generate
+```
 
-1. **Chrome Local**: Fast, reliable, and familiar for development
-2. **Firefox Docker**: Stable, compatible, and works on all architectures
-3. **Future Work**: We plan to continue investigating Chrome Docker solutions
-4. **CI/CD Ready**: Works seamlessly in GitHub Actions and other CI environments
+## 📞 Support
 
-### Future Improvements
-
-This is our first version of the solution. We plan to continue working on:
-- Chrome Docker compatibility research
-- Alternative browser configurations
-- Performance optimizations
-- Enhanced CI/CD integration
-
-The current solution provides a solid foundation that works reliably across all platforms while we continue to explore better Chrome Docker integration.
+For questions or issues:
+1. Check the **Troubleshooting** section above
+2. Review **Allure reports** for detailed execution logs
+3. Check **screenshots** for visual debugging
+4. Consult the **Project Structure** for file organization

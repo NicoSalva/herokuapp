@@ -1,147 +1,147 @@
-import { BaseLocators } from './BaseLocators.js'
+import { BaseLocators } from './BaseLocators';
 
 /**
  * Confirmation Modal Locators
  * Contains all selectors for confirmation modals
  */
 export class ConfirmationModalLocators extends BaseLocators {
-    // Desktop selectors
-    private readonly desktopSelectors = {
-        // Modal elements
-        modal: '.modal',
-        modalBody: '.modal-body',
-        modalTitle: '.modal-title',
-        modalContent: '.modal-content',
-        
-        // Action buttons
-        // Primary confirm: matches provided details
-        confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
-        // Fallbacks (used via page logic)
-        confirmDangerBtn: '.modal .btn-danger',
-        confirmPrimaryBtn: '.modal .btn-primary',
-        cancelButton: 'button[ng-click*="cancel"]',
-        closeButton: '.close',
-        
-        // Common elements
-        loadingSpinner: '[data-testid="loading"]',
-        errorMessage: '[data-testid="error"]',
-        successMessage: '[data-testid="success"]'
-    }
+  // Desktop selectors
+  private readonly desktopSelectors = {
+    // Modal elements
+    modal: '.modal',
+    modalBody: '.modal-body',
+    modalTitle: '.modal-title',
+    modalContent: '.modal-content',
 
-    // Mobile selectors (can be different if needed)
-    private readonly mobileSelectors = {
-        // Modal elements (same as desktop for this app)
-        modal: '.modal',
-        modalBody: '.modal-body',
-        modalTitle: '.modal-title',
-        modalContent: '.modal-content',
-        
-        // Action buttons (match desktop primary confirm)
-        confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
-        cancelButton: 'button[ng-click*="cancel"]',
-        closeButton: '.close',
-        
-        // Common elements
-        loadingSpinner: '[data-testid="loading"]',
-        errorMessage: '[data-testid="error"]',
-        successMessage: '[data-testid="success"]'
-    }
+    // Action buttons
+    // Primary confirm: matches provided details
+    confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
+    // Fallbacks (used via page logic)
+    confirmDangerBtn: '.modal .btn-danger',
+    confirmPrimaryBtn: '.modal .btn-primary',
+    cancelButton: 'button[ng-click*="cancel"]',
+    closeButton: '.close',
 
-    /**
-     * Get all selectors for the current device
-     */
-    getSelectors(): Record<string, string> {
-        // For now, return desktop selectors
-        // In the future, this can be enhanced to detect device type
-        return this.desktopSelectors;
-    }
+    // Common elements
+    loadingSpinner: '[data-testid="loading"]',
+    errorMessage: '[data-testid="error"]',
+    successMessage: '[data-testid="success"]',
+  };
 
-    /**
-     * Get specific selector by name
-     */
-    getSelector(name: keyof typeof this.desktopSelectors): string {
-        const selectors = this.getSelectors();
-        return selectors[name] || '';
-    }
+  // Mobile selectors (can be different if needed)
+  private readonly mobileSelectors = {
+    // Modal elements (same as desktop for this app)
+    modal: '.modal',
+    modalBody: '.modal-body',
+    modalTitle: '.modal-title',
+    modalContent: '.modal-content',
 
-    /**
-     * Get modal selector
-     */
-    get modal(): string {
-        return this.getSelector('modal');
-    }
+    // Action buttons (match desktop primary confirm)
+    confirmButton: 'button.btn.btn-primary[ng-click="submit()"]',
+    cancelButton: 'button[ng-click*="cancel"]',
+    closeButton: '.close',
 
-    /**
-     * Get modal body selector
-     */
-    get modalBody(): string {
-        return this.getSelector('modalBody');
-    }
+    // Common elements
+    loadingSpinner: '[data-testid="loading"]',
+    errorMessage: '[data-testid="error"]',
+    successMessage: '[data-testid="success"]',
+  };
 
-    /**
-     * Get modal title selector
-     */
-    get modalTitle(): string {
-        return this.getSelector('modalTitle');
-    }
+  /**
+   * Get all selectors for the current device
+   */
+  getSelectors(): Record<string, string> {
+    // For now, return desktop selectors
+    // In the future, this can be enhanced to detect device type
+    return this.desktopSelectors;
+  }
 
-    /**
-     * Get modal content selector
-     */
-    get modalContent(): string {
-        return this.getSelector('modalContent');
-    }
+  /**
+   * Get specific selector by name
+   */
+  getSelector(name: keyof typeof this.desktopSelectors): string {
+    const selectors = this.getSelectors();
+    return selectors[name] || '';
+  }
 
-    /**
-     * Get confirm button selector
-     */
-    get confirmButton(): string {
-        return this.getSelector('confirmButton');
-    }
+  /**
+   * Get modal selector
+   */
+  get modal(): string {
+    return this.getSelector('modal');
+  }
 
-    /**
-     * Get cancel button selector
-     */
-    get cancelButton(): string {
-        return this.getSelector('cancelButton');
-    }
+  /**
+   * Get modal body selector
+   */
+  get modalBody(): string {
+    return this.getSelector('modalBody');
+  }
 
-    /**
-     * Get close button selector
-     */
-    get closeButton(): string {
-        return this.getSelector('closeButton');
-    }
+  /**
+   * Get modal title selector
+   */
+  get modalTitle(): string {
+    return this.getSelector('modalTitle');
+  }
 
-    /**
-     * Get loading spinner selector
-     */
-    get loadingSpinner(): string {
-        return this.getSelector('loadingSpinner');
-    }
+  /**
+   * Get modal content selector
+   */
+  get modalContent(): string {
+    return this.getSelector('modalContent');
+  }
 
-    /**
-     * Get error message selector
-     */
-    get errorMessage(): string {
-        return this.getSelector('errorMessage');
-    }
+  /**
+   * Get confirm button selector
+   */
+  get confirmButton(): string {
+    return this.getSelector('confirmButton');
+  }
 
-    /**
-     * Get success message selector
-     */
-    get successMessage(): string {
-        return this.getSelector('successMessage');
-    }
+  /**
+   * Get cancel button selector
+   */
+  get cancelButton(): string {
+    return this.getSelector('cancelButton');
+  }
 
-    /**
-     * Fallback confirm buttons (common Bootstrap styles)
-     */
-    get confirmDangerBtn(): string {
-        return '.modal .btn-danger'
-    }
+  /**
+   * Get close button selector
+   */
+  get closeButton(): string {
+    return this.getSelector('closeButton');
+  }
 
-    get confirmPrimaryBtn(): string {
-        return '.modal .btn-primary'
-    }
+  /**
+   * Get loading spinner selector
+   */
+  get loadingSpinner(): string {
+    return this.getSelector('loadingSpinner');
+  }
+
+  /**
+   * Get error message selector
+   */
+  get errorMessage(): string {
+    return this.getSelector('errorMessage');
+  }
+
+  /**
+   * Get success message selector
+   */
+  get successMessage(): string {
+    return this.getSelector('successMessage');
+  }
+
+  /**
+   * Fallback confirm buttons (common Bootstrap styles)
+   */
+  get confirmDangerBtn(): string {
+    return '.modal .btn-danger';
+  }
+
+  get confirmPrimaryBtn(): string {
+    return '.modal .btn-primary';
+  }
 }
