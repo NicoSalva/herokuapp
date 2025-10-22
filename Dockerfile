@@ -19,5 +19,5 @@ COPY . .
 # Set display for Firefox
 ENV DISPLAY=:99
 
-# Start virtual display and run tests with new unified config
-CMD xvfb-run -a --server-args="-screen 0 1920x1080x24" npm run test
+# Start virtual display and run tests with Docker-specific config
+CMD xvfb-run -a --server-args="-screen 0 1920x1080x24" npm run test:docker
