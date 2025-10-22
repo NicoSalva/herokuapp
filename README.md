@@ -61,6 +61,9 @@ docker compose up -d
 # Start Selenium Grid (Apple Silicon M1/M2)
 docker compose -f docker-compose.arm64.yml up -d
 
+# Wait for Selenium Grid to be ready
+npm run docker:wait
+
 # Run tests against Docker (Firefox only)
 npm run test:docker
 

@@ -16,7 +16,7 @@ exports.makeConfig = (overrides = {}) => ({
 
   // Anti-flaky configuration
   specFileRetries: 1,
-  specFileRetryDelay: 1000,
+  specFileRetryDelay: 2000,
   specFileRetryAttempts: 2,
 
   reporters: [
@@ -32,9 +32,9 @@ exports.makeConfig = (overrides = {}) => ({
   ],
 
   automationProtocol: 'webdriver',
-  waitforTimeout: 10000,
+  waitforTimeout: 15000,
   connectionRetryTimeout: 120000,
-  connectionRetryCount: 2,
+  connectionRetryCount: 3,
 
   // Screenshots on failure
   afterStep: function (step, context, { error, result, duration, passed, retries }) {

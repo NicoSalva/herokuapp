@@ -1,0 +1,112 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test Matrix
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        headless: [true, false]
+        tags: ['@smoke', '@functional']
+        exclude:
+          # Skip non-headless for smoke tests (faster CI)
+          - browser: chrome
+            headless: false
+            tags: '@smoke'
+          - browser: firefox
+            headless: false
+            tags: '@smoke'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Run tests
+      run: |
+        BROWSER=${{ matrix.browser }} \
+        HEADLESS=${{ matrix.headless }} \
+        TAGS=${{ matrix.tags }} \
+        npm run test
+      env:
+        BROWSER: ${{ matrix.browser }}
+        HEADLESS: ${{ matrix.headless }}
+        TAGS: ${{ matrix.tags }}
+        
+    - name: Generate Allure Report
+      if: always()
+      run: npm run allure:generate
+      
+    - name: Upload Allure Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report-${{ matrix.browser }}-${{ matrix.headless }}-${{ matrix.tags }}
+        path: allure-report/
+        retention-days: 30
+
+  docker-test:
+    name: Docker Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Start Selenium Grid
+      run: |
+        docker compose up -d
+        sleep 30
+        
+    - name: Wait for Selenium Grid
+      run: |
+        timeout 60 bash -c 'until curl -f http://localhost:4444/status; do sleep 2; done'
+        
+    - name: Run Docker tests
+      run: |
+        npm run build
+        npm run test:docker:tag
+        
+    - name: Generate Allure Report
+      if: always()
+      run: npm run allure:generate
+      
+    - name: Upload Allure Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report-docker
+        path: allure-report/
+        retention-days: 30
+        
+    - name: Cleanup
+      if: always()
+      run: docker compose down --remove-orphans
