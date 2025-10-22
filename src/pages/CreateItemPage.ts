@@ -1,5 +1,5 @@
-import { BasePage } from './BasePage'
-import { CreateItemLocators } from '../locators/CreateItemLocators'
+import { BasePage } from './BasePage.js'
+import { CreateItemLocators } from '../locators/CreateItemLocators.js'
 
 export class CreateItemPage extends BasePage {
     // Use page-specific locators

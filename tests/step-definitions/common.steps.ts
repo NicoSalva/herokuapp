@@ -1,10 +1,10 @@
 import { Given, When, Then } from '@wdio/cucumber-framework'
 import { expect } from '@wdio/globals'
-import { TestConfigManager } from '../../src/config/TestConfig'
-import { CreateItemPage } from '../../src/pages/CreateItemPage'
-import { ItemListPage } from '../../src/pages/ItemListPage'
-import { QAUtils } from '../../src/utils/QAUtils'
-import { allureLogger } from '../../src/utils/AllureLogger'
+import { TestConfigManager } from '../../src/config/TestConfig.js'
+import { CreateItemPage } from '../../src/pages/CreateItemPage.js'
+import { ItemListPage } from '../../src/pages/ItemListPage.js'
+import { QAUtils } from '../../src/utils/QAUtils.js'
+import { allureLogger } from '../../src/utils/AllureLogger.js'
 
 const configManager = TestConfigManager.getInstance()
 const createItemPage = new CreateItemPage()

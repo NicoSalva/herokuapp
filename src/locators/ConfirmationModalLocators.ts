@@ -1,4 +1,4 @@
-import { BaseLocators } from './BaseLocators'
+import { BaseLocators } from './BaseLocators.js'
 
 /**
  * Confirmation Modal Locators

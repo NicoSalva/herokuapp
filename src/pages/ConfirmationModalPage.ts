@@ -1,5 +1,5 @@
-import { BasePage } from './BasePage'
-import { ConfirmationModalLocators } from '../locators/ConfirmationModalLocators'
+import { BasePage } from './BasePage.js'
+import { ConfirmationModalLocators } from '../locators/ConfirmationModalLocators.js'
 
 export class ConfirmationModalPage extends BasePage {
     // Use page-specific locators

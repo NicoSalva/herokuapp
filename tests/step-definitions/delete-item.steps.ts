@@ -1,11 +1,11 @@
 import { When, Then } from '@wdio/cucumber-framework'
 import { expect } from '@wdio/globals'
-import { ItemListPage } from '../../src/pages/ItemListPage'
-import { ConfirmationModalPage } from '../../src/pages/ConfirmationModalPage'
-import { CreateItemPage } from '../../src/pages/CreateItemPage'
-import { allureLogger } from '../../src/utils/AllureLogger'
-import { TestAssets } from '../../src/config/TestAssets'
-import { QAUtils } from '../../src/utils/QAUtils'
+import { ItemListPage } from '../../src/pages/ItemListPage.js'
+import { ConfirmationModalPage } from '../../src/pages/ConfirmationModalPage.js'
+import { CreateItemPage } from '../../src/pages/CreateItemPage.js'
+import { allureLogger } from '../../src/utils/AllureLogger.js'
+import { TestAssets } from '../../src/config/TestAssets.js'
+import { QAUtils } from '../../src/utils/QAUtils.js'
 
 const listPage = new ItemListPage()
 const modal = new ConfirmationModalPage()

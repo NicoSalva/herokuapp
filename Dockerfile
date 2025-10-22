@@ -1,37 +1,23 @@
 FROM node:20-bullseye
 
-# Install Chrome dependencies and Chrome
+# Install Firefox and dependencies
 RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    fonts-liberation \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libcups2 \
-    libdbus-1-3 \
-    libdrm2 \
-    libgbm1 \
-    libgtk-3-0 \
-    libnspr4 \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    xdg-utils \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
+    firefox-esr \
+    xvfb \
+    x11vnc \
+    fluxbox \
+    wmctrl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "test:desktop"]
+# Set display for Firefox
+ENV DISPLAY=:99
+
+# Start virtual display and run tests with new unified config
+CMD xvfb-run -a --server-args="-screen 0 1920x1080x24" npm run test

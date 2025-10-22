@@ -1,9 +1,9 @@
 import { When, Then } from '@wdio/cucumber-framework'
 import { expect } from '@wdio/globals'
-import { ItemListPage } from '../../src/pages/ItemListPage'
-import { EditItemPage } from '../../src/pages/EditItemPage'
-import { allureLogger } from '../../src/utils/AllureLogger'
-import { QAUtils } from '../../src/utils/QAUtils'
+import { ItemListPage } from '../../src/pages/ItemListPage.js'
+import { EditItemPage } from '../../src/pages/EditItemPage.js'
+import { allureLogger } from '../../src/utils/AllureLogger.js'
+import { QAUtils } from '../../src/utils/QAUtils.js'
 
 const listPage = new ItemListPage()
 const editPage = new EditItemPage()

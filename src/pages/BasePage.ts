@@ -1,5 +1,5 @@
-import { QAUtils } from '../utils/QAUtils'
-import { TestConfigManager } from '../config/TestConfig'
+import { QAUtils } from '../utils/QAUtils.js'
+import { TestConfigManager } from '../config/TestConfig.js'
 
 export class BasePage {
     protected configManager = TestConfigManager.getInstance()

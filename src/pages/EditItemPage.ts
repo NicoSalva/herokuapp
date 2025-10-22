@@ -1,5 +1,5 @@
-import { BasePage } from './BasePage'
-import { EditItemLocators } from '../locators/EditItemLocators'
+import { BasePage } from './BasePage.js'
+import { EditItemLocators } from '../locators/EditItemLocators.js'
 
 export class EditItemPage extends BasePage {
     // Use page-specific locators

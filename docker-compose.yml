@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  test-desktop:
+  test:
     platform: linux/amd64
     build:
       context: .
@@ -12,3 +12,9 @@ services:
     volumes:
       - ./allure-results:/app/allure-results
       - ./allure-report:/app/allure-report
+    environment:
+      BROWSER: "firefox"
+      HEADLESS: "true"
+      TAGS: ""
+      SPEC: ""
+      MOBILE: "false"
