@@ -1,2 +1,2 @@
-const base = require('./wdio.base.js');
+const base = require('./wdio.base.cjs');
 module.exports = { config: base.default };
