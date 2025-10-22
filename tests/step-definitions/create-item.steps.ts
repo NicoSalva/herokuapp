@@ -14,7 +14,7 @@ const createItemPage = new CreateItemPage()
 When('I enter {string} in the description field', async (description: string) => {
     // Validate that the textarea is available before entering text
     const placeholder = await createItemPage.getTextareaPlaceholder()
-    await expect(placeholder).toContain('Maximum allowed length: 300 characters', { message: '❌ Expected textarea placeholder to contain \'Maximum allowed length: 300 characters\', but got: ' + placeholder })
+    await expect(placeholder).toContain('Maximum allowed length: 300 characters')
     allureLogger('Textarea placeholder validated', placeholder)
     
     // Enter the description
@@ -23,7 +23,7 @@ When('I enter {string} in the description field', async (description: string) =>
     
     // Validate that the text was entered correctly
     const enteredText = await createItemPage.getTextareaValue()
-    await expect(enteredText).toBe(description, { message: `❌ Expected entered text to be '${description}', but got: '${enteredText}'` })
+    await expect(enteredText).toBe(description)
     allureLogger('Description validation passed', { expected: description, actual: enteredText })
 })
 
@@ -34,7 +34,7 @@ When('I enter a description with {int} characters', async (characterCount: numbe
     
     // Validate that the textarea is available before entering text
     const placeholder = await createItemPage.getTextareaPlaceholder()
-    await expect(placeholder).toContain('Maximum allowed length: 300 characters', { message: '❌ Expected textarea placeholder to contain \'Maximum allowed length: 300 characters\', but got: ' + placeholder })
+    await expect(placeholder).toContain('Maximum allowed length: 300 characters')
     allureLogger('Textarea placeholder validated for long description', placeholder)
     
     // Enter the description
@@ -43,8 +43,8 @@ When('I enter a description with {int} characters', async (characterCount: numbe
     
     // Validate that the text was entered correctly
     const enteredText = await createItemPage.getTextareaValue()
-    await expect(enteredText).toBe(description, { message: `❌ Expected entered text to be '${description}', but got: '${enteredText}'` })
-    await expect(enteredText.length).toBe(characterCount, { message: `❌ Expected text length to be ${characterCount}, but got: ${enteredText.length}` })
+    await expect(enteredText).toBe(description)
+    await expect(enteredText.length).toBe(characterCount)
     allureLogger('Long description validation passed', { 
         expectedLength: characterCount, 
         actualLength: enteredText.length 
@@ -147,6 +147,6 @@ When('I click the Create Item button', async () => {
 Then('the Create button should be disabled', async () => {
     const button = await $(createItemPage['locators'].createButton as string)
     const isEnabled = await button.isEnabled()
-    await expect(isEnabled).toBe(false, { message: `❌ Expected Create button to be disabled, but it was enabled: ${isEnabled}` })
+    await expect(isEnabled).toBe(false)
     allureLogger('Create button is disabled as expected')
 })
