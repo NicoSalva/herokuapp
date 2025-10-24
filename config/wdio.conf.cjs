@@ -1,7 +1,7 @@
 const { makeConfig } = require('./wdio.base.cjs');
 
 const BROWSER = (process.env.BROWSER || 'chrome').toLowerCase();
-const HEADLESS = (process.env.HEADLESS ?? 'true') !== 'false';
+const HEADLESS = (process.env.HEADLESS ?? 'false') === 'true';
 const MOBILE = (process.env.MOBILE ?? 'false') === 'true';
 
 const chromeArgs = [
