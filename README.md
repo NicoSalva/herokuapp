@@ -123,12 +123,17 @@ npm run allure:clean
 
 ### Environment Variables
 - `BROWSER` - Browser to use (chrome/firefox)
-- `HEADLESS` - Run headless (true/false)
+- `HEADLESS` - Run headless mode (true/false, default: false for visible mode)
 - `MOBILE` - Mobile emulation (true/false)
 - `TAGS` - Cucumber tag expression
 - `SPEC` - Specific feature file
 
 ## 🔍 Debugging & Visualization
+
+### Browser Visibility
+- Tests run in **visible mode by default** - you can see the browser executing tests
+- This makes debugging easier and more intuitive
+- Use `HEADLESS=true` for faster, background execution
 
 ### Screenshots
 - Automatically captured on test failures
@@ -171,7 +176,8 @@ npm run allure:generate
 ```
 
 ### Performance Tips
-- Use `HEADLESS=true` for faster execution
+- Tests run in **visible mode** by default for better debugging
+- Use `HEADLESS=true` for faster execution (no browser window)
 - Run `@smoke` tests for quick validation
 - Use Docker for consistent environments
 
@@ -237,8 +243,8 @@ And I should see the new item in the list
 
 ### Custom Configurations
 ```bash
-# Run with custom browser settings
-BROWSER=firefox HEADLESS=false npm run test
+# Run with headless mode (faster, no browser window)
+BROWSER=firefox HEADLESS=true npm run test
 
 # Run specific scenarios
 TAGS='@smoke and not @bug' npm run test:firefox
